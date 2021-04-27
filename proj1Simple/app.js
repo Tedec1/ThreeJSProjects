@@ -5,6 +5,7 @@ import * as THREE from "./three.js-master/build/three.module.js";
 function main() {
 	const canvas = document.querySelector("#c");
 	const renderer = new THREE.WebGLRenderer({ canvas });
+	const scene = new THREE.Scene();
 
 	const fov = 40;
 	const aspect = 2; // the canvas default
@@ -14,7 +15,6 @@ function main() {
 	camera.position.set(0, 50, 0);
 	camera.up.set(0, 0, 1);
 	camera.lookAt(0, 0, 0);
-	const scene = new THREE.Scene();
 	{
 		const color = 0xffffff;
 		const intensity = 3;
