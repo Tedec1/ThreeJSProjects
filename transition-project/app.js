@@ -100,7 +100,10 @@ function main() {
 	// const controls = new OrbitControls(camera, canvas);
 	// controls.target.set(0, 5, 0);
 	// controls.update();
-
+	{
+		const { x, y, z } = scenes[0].lookAtV;
+		camera.lookAt(x, y, z);
+	}
 	const scene = new THREE.Scene();
 	scene.background = new THREE.Color("lightblue");
 
@@ -186,7 +189,7 @@ function main() {
 		requestAnimationFrame(render);
 	}
 
-	const handleTransition = () => {};
+	const handleTransition = (currScene, nextScene) => {};
 
 	document.addEventListener("click", () => {
 		pos++;
