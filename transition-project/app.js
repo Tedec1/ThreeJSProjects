@@ -1,5 +1,6 @@
 import * as THREE from "https://threejsfundamentals.org/threejs/resources/threejs/r127/build/three.module.js";
-import { OrbitControls } from "https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/controls/OrbitControls.js";
+// import { OrbitControls } from "https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/controls/OrbitControls.js";
+// import * as TWEEN from "../tween.js/tween.umd.js";
 
 function main() {
 	let pos = 0;
@@ -212,18 +213,17 @@ function main() {
 			const { x, y, z } = position;
 			camera.position.set(x, y, z);
 		}
-
-		// {
-		//   const {x,y,z} = rotation;
-		//   camera.rotation.set(x,y,z);
-		// }
 		{
 			const { x, y, z } = lookAtV;
 			camera.lookAt(x, y, z);
 		}
+		// {
+		//   const {x,y,z} = rotation;
+		//   camera.rotation.set(x,y,z);
+		// }
 		// handleTransition(scenes[pos - 1],scenes[pos])
 
-		console.log(camera);
+		// console.log(TWEEN);
 	});
 	document.addEventListener("contextmenu", (event) => {
 		event.preventDefault();
