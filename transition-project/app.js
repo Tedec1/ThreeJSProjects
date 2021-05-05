@@ -191,12 +191,19 @@ function main() {
 		requestAnimationFrame(render);
 	}
 
+	let inTransition = false;
 	const handleTransition = (currScene, nextScene) => {
+		const handleComplete = (event) => {
+			inTransition = false;
+			console.log(event);
+		};
+		// if (!inTransition) {
 		const coords = {
 			x: currScene.position.x,
 			y: currScene.position.y,
 			z: currScene.position.z,
 		};
+
 		new TWEEN.Tween(coords)
 			.to({
 				x: nextScene.position.x,
@@ -206,8 +213,11 @@ function main() {
 			.onUpdate(() => {
 				camera.position.set(coords.x, coords.y, coords.z);
 				camera.lookAt(0, 0, 0);
+				inTransition = true;
 			})
 			.start();
+		// camera.addEventListener("complete", handleComplete);
+		// }
 	};
 
 	document.addEventListener("wheel", (event) => {
