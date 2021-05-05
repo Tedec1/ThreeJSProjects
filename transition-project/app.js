@@ -3,6 +3,7 @@ import { OrbitControls } from "https://threejsfundamentals.org/threejs/resources
 
 function main() {
 	let pos = 0;
+	let scroll = document.body.scrollTop;
 	const scenes = [
 		{
 			position: {
@@ -137,7 +138,7 @@ function main() {
 		scene.add(mesh);
 	}
 	const objects = [
-		makeBall(6, 20, 20, "blue", 5, 5, 10),
+		makeBall(6, 20, 20, "blue", 5, 7, 10),
 		makeBox(5, 5, 5, "green", 0, 5, -10),
 		makeOctahedron(7, "gray", 15, 10, 5),
 	];
@@ -191,10 +192,20 @@ function main() {
 
 	const handleTransition = (currScene, nextScene) => {};
 
-	document.addEventListener("click", () => {
-		pos++;
+	document.addEventListener("wheel", (event) => {
+		console.log(event.deltaY);
+		if (event.deltaY > 0) {
+			//scroll down
+			pos++;
+		} else {
+			//scroll up
+			pos--;
+		}
 		if (pos >= scenes.length) {
 			pos = 0;
+		}
+		if (pos < 0) {
+			pos = scenes.length - 1;
 		}
 		const { rotation, position, fov, far, near, lookAtV } = scenes[pos];
 		{
