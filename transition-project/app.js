@@ -18,9 +18,9 @@ function main() {
 				z: 0,
 			},
 			lookAtV: {
-				x: 1.0,
-				y: 1.0,
-				z: 1.0,
+				x: 0,
+				y: 0,
+				z: 0,
 			},
 			far: 100,
 			near: 0.1,
@@ -38,9 +38,9 @@ function main() {
 				z: 0,
 			},
 			lookAtV: {
-				x: 1.0,
-				y: 1.0,
-				z: 1.0,
+				x: 0,
+				y: 0,
+				z: 0,
 			},
 			far: 100,
 			near: 0.1,
@@ -58,9 +58,9 @@ function main() {
 				z: 0,
 			},
 			lookAtV: {
-				x: 1.0,
-				y: 1.0,
-				z: 1.0,
+				x: 0,
+				y: 0,
+				z: 0,
 			},
 			far: 100,
 			near: 0.1,
@@ -179,21 +179,39 @@ function main() {
 		return needResize;
 	}
 
-	function render() {
+	function render(time) {
 		if (resizeRendererToDisplaySize(renderer)) {
 			const canvas = renderer.domElement;
 			camera.aspect = canvas.clientWidth / canvas.clientHeight;
 			camera.updateProjectionMatrix();
 		}
-
+		TWEEN.update(time);
 		renderer.render(scene, camera);
 
 		requestAnimationFrame(render);
 	}
 
-	const handleTransition = (currScene, nextScene) => {};
+	const handleTransition = (currScene, nextScene) => {
+		const coords = {
+			x: currScene.position.x,
+			y: currScene.position.y,
+			z: currScene.position.z,
+		};
+		new TWEEN.Tween(coords)
+			.to({
+				x: nextScene.position.x,
+				y: nextScene.position.y,
+				z: nextScene.position.z,
+			})
+			.onUpdate(() => {
+				camera.position.set(coords.x, coords.y, coords.z);
+				camera.lookAt(0, 0, 0);
+			})
+			.start();
+	};
 
 	document.addEventListener("wheel", (event) => {
+		const prevPos = pos;
 		console.log(event.deltaY);
 		if (event.deltaY > 0) {
 			//scroll down
@@ -208,20 +226,7 @@ function main() {
 		if (pos < 0) {
 			pos = scenes.length - 1;
 		}
-		const { rotation, position, fov, far, near, lookAtV } = scenes[pos];
-		{
-			const { x, y, z } = position;
-			camera.position.set(x, y, z);
-		}
-		{
-			const { x, y, z } = lookAtV;
-			camera.lookAt(x, y, z);
-		}
-		// {
-		//   const {x,y,z} = rotation;
-		//   camera.rotation.set(x,y,z);
-		// }
-		// handleTransition(scenes[pos - 1],scenes[pos])
+		handleTransition(scenes[prevPos], scenes[pos]);
 
 		// console.log(TWEEN);
 	});
